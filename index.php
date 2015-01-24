@@ -8,7 +8,7 @@ if (isset($_GET["enviar"]))
     $up->sendTo("arquivos/");
     $extencaos = array("jpg","png","gif","pdf","doc","docx","html","txt");
     $up->setExtensions($extencaos);
-    if ($up->sendUpload())
+    if ($up->move())
     {
         echo "Arquivo enviado com Sucesso";
     }

@@ -32,7 +32,7 @@ class TheUploadFiles
     /*end set*/
 
     /*Este método efetua um conjunto de validações*/
-	private function configAndSendUploads()
+	private function validationConfig()
 	{
 		$this->config["fileLength"] = 1024 * 1024 * 2;
 		$this->config["theExtensions"] = $this->extensions;
@@ -77,9 +77,9 @@ class TheUploadFiles
 	}
     
     /*Este método move os arquivos da pasta temporária para a pasta de destino*/
-	public function sendUpload()
+	public function move()
 	{
-		$this->configAndSendUploads();
+		$this->validationConfig();
 		return move_uploaded_file($this->file["tmp_name"], $this->config["folder"] . time() . $this->file["name"]);
 	}
     

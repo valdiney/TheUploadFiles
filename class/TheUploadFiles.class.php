@@ -15,7 +15,7 @@ class TheUploadFiles
 	private $extensions;
     
     /*set - Seta os atributos*/
-	public function setFile($file)
+	public function setInputFile($file)
 	{
 		$this->file = $file;
 	}
@@ -32,9 +32,9 @@ class TheUploadFiles
     /*end set*/
 
     /*Este método efetua um conjunto de validações*/
-	private function validationConfig()
+	private function configValidation()
 	{
-		$this->config["fileLength"] = 1024 * 1024 * 2;
+		$this->config["fileLength"] = 1024 * 1024 * 10;
 		$this->config["theExtensions"] = $this->extensions;
 		$this->config["rename"] = false;
 
@@ -68,7 +68,6 @@ class TheUploadFiles
         	}
 
         	echo  "Evie apenas esses tipos de arquivos: " . $typeFiles;
-            exit;
         }
         elseif ($this->config["fileLength"] < $this->file["size"])
         {
@@ -79,16 +78,16 @@ class TheUploadFiles
     /*Este método move os arquivos da pasta temporária para a pasta de destino*/
 	public function move()
 	{
-		$this->validationConfig();
+		$this->configValidation();
 		return move_uploaded_file($this->file["tmp_name"], $this->config["folder"] . time() . $this->file["name"]);
 	}
     
     /*Descarregam os atributos, associado aos mesmos um valor nulo*/
 	public function __destruct()
 	{
-		$this->file = null;
-		$this->config["folder"] = null;
-		$this->extensions = null;
+		unset($this->file);
+		unset($this->config["folder"]);
+		unset($this->extensions);
 	}
 }
 

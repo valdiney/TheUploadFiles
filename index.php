@@ -4,10 +4,10 @@ require_once("class/TheUploadFiles.class.php");
 if (isset($_GET["enviar"]))
 {
     $up = new TheUploadFiles();
-    $up->setFile($_FILES["arquivo"]);
+    $up->setInputFile($_FILES["arquivo"]);
     $up->sendTo("arquivos/");
-    $extencaos = array("jpg","png","gif","pdf","doc","docx","html","txt");
-    $up->setExtensions($extencaos);
+    $extensoes = array("jpg","png","gif","pdf","doc","docx","html","txt");
+    $up->setExtensions($extensoes);
     if ($up->move())
     {
         echo "Arquivo enviado com Sucesso";

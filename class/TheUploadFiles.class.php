@@ -1,9 +1,10 @@
 <?php 
 /**
 * Class para fazer Upload de pequenos arquivos...
-* @var $config - array de possíveis erros que podem ocorrer
-* @var $file - array $_FILES contendo o nome do campo file
-* @var $extensios - array contendo os tipos dos arquivos que você deseja permitir
+* @var $config - Array - de possíveis erros que podem ocorrer
+* @var $file - Array -  $_FILES contendo o nome do campo file
+* @var $extensios - Array - contendo os tipos dos arquivos que você deseja permitir
+* @var $allowedFileSize - Int Tamanho máximo que você queira permitir
 * @version 0.1
 * @author Valdiney França
 */
@@ -13,6 +14,16 @@ class TheUploadFiles
 	private $config;
 	private $file;
 	private $extensions;
+    private $allowedFileSize;
+
+    public function __construct()
+    {
+        if ($this->allowedFileSize == "")
+        {
+            $this->allowedFileSize = 2;
+        }
+    }
+
     
     /*set - Seta os atributos*/
 	public function setInputFile($file)
@@ -29,12 +40,17 @@ class TheUploadFiles
 	{
 		$this->extensions = $extensions;
 	}
+
+    public function setFileSize($fileSize)
+    {
+        $this->allowedFileSize = $fileSize;
+    }
     /*end set*/
 
     /*Este método efetua um conjunto de validações*/
 	private function configValidation()
 	{
-		$this->config["fileLength"] = 1024 * 1024 * 10;
+		$this->config["fileLength"] = 1024 * 1024 * $this->allowedFileSize;
 		$this->config["theExtensions"] = $this->extensions;
 
         if ($this->file["error"] != 0)
@@ -70,7 +86,7 @@ class TheUploadFiles
         }
         elseif ($this->config["fileLength"] < $this->file["size"])
         {
-        	echo 'O arquivo enviado é muito grande';
+        	echo 'O arquivo enviado é muito grande, envie arquivos de até ' . $this->config["fileLength"];
         }
 	}
     
@@ -101,7 +117,10 @@ class TheUploadFiles
 	public function __destruct()
 	{
 		unset($this->file);
-		unset($this->config["folder"]);
+		unset($this->config);
 		unset($this->extensions);
+        $this->allowedFileSize = null;
 	}
 }
+/* End of file TheUploadFiles.class.php */
+/* Location: class */

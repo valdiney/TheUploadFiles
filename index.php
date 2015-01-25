@@ -6,6 +6,7 @@ if (isset($_GET["enviar"]))
     $up = new TheUploadFiles();
     $up->setInputFile($_FILES["arquivo"]);
     $up->sendTo("arquivos/");
+    $up->setFileSize(10);
     $extensoes = array("jpg","png","gif","pdf","doc","docx","html","txt","avi","mp4","mp3");
     $up->setExtensions($extensoes);
     if ($up->move())

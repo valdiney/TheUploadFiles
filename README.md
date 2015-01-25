@@ -20,13 +20,16 @@ if (isset($_GET["enviar"]))
     /*Passando o nome da pasta de destino*/
     $up->sendTo("arquivos/"); 
     
-    /*Exemplo de um Array de extensões que você deseja permitir*/
+    /*Método opcional, por padrão a classe permite o tamanho padrão configurado pelo PHP que é 2Mb*/
+    $up->setFileSize(4);
+    
+    /*Exemplo de um Array de extensões que você pode permitir para upload*/
     $extensoes = array("jpg","png","gif","pdf","doc","docx","html","txt"); 
 
-    /*Passando o Array para o método*/
+    /*Passando o Array para o método que set seu valor para a class*/
     $up->setExtensions($extensoes);
     
-    /*Método que manda os arquivos para pata de destino*/
+    /*Método que manda os arquivos para pasta de destino*/
     if ($up->move())
     {
         echo "Arquivo enviado com Sucesso";
@@ -37,10 +40,14 @@ if (isset($_GET["enviar"]))
 <!--O método "showPath()" mostra o caminho do arquivo juntamente com o seu nome e extensão-->
 <a href="<?php echo $up->showPath(); ?>">Caminho do arquivo</a>
 ```
-<h3>Lembrando que</h3>
+
+<h3>Obs:</h3>
 <p>
-    No PHP com configuração padrão o limite de Upload´s está direcionado a aceitar até <b>2Mb</b>. Sendo assim recomenda-se que se for o caso de fazer o Upload de arquivos maiores consulte o seu <b>PHP.ini</b> e efetue as possíveis mudanças.
+    O método <b>setFileSize(int)</b> recebe como argumento um número inteiro. A classe recebe este número e efetua o calculo para obter o tamanho em <b>Bytes</b>, ou seja, se você passar para o método o valor 4 a classe entenderá que você deseja permitir arquivos de até <b>4Mb</b>.
+    Infelizmente esse método é totalmente dependente das suas configurações no <b>PHP.ini</b>, por padrão estará no   <b>PHP.ini</b> o valor 2, ou seja, <b>2Mb</b>. Sendo assim este método deve ser usado somente se você configurar o <b>PHP.ini</b> para permitir um valor maior.
 </p>
+
+<h3>Mudanças no PHP.ini</h3>
 <p>
     No seu <b>PHP.ini</b> pesquise por : <b>upload_max_filesize</b>  e atribua ao mesmo um valor maior 
 </p>
@@ -49,6 +56,6 @@ if (isset($_GET["enviar"]))
 /*Padrão*/
 upload_max_filesize = 2M
 
-/*Mude para ou mais*/
+/*Mude para 10M ou mais*/
 upload_max_filesize = 10M
 ```

@@ -74,7 +74,7 @@ class TheUploadFiles
         }
 	}
     
-    /*Este método move os arquivos da pasta temporária para a pasta de destino*/
+    /*Este método move os arquivos da pasta temporária para a pasta de destino.*/
 	public function move()
 	{
 		$this->configValidation();

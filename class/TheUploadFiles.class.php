@@ -16,15 +16,15 @@ class TheUploadFiles
     
     /*set - Seta os atributos*/
 	public function setInputFile($file)
-    {
-         $this->file = $file;
-    }
-
+	{
+		$this->file = $file;
+	}
+    
 	public function sendTo($folder)
-    {
-        $this->config["folder"] = $folder;
-    }
-	
+	{
+		$this->config["folder"] = $folder;
+	}
+    
 	public function setExtensions($extensions)
 	{
 		$this->extensions = $extensions;

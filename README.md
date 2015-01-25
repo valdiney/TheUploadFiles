@@ -1,7 +1,7 @@
 # TheUploadFiles
 Class PHP para efetuar o Upload de arquivos
 <p>
-	Para fazer uso da class basta chamá-la, instanciá-la e passar os valores exigidos para os seus métodos e em seguida  chamar o todo que realiza o upload.
+	Para fazer uso da class basta chamá-la, instanciá-la e passar os valores exigidos para os seus métodos e em seguida  chamar o método que realiza o upload.
 </p>
 
 <h3>Exemplo de uso:</h3>

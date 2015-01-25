@@ -26,6 +26,8 @@ if (isset($_GET["enviar"]))
     <input type="file" name="arquivo">
     <button type="submit">Enviar</button>
 </form>
+<br>
+<a href="<?php echo $up->showPath(); ?>">Caminho do arquivo</a>
 </body>
 
 </html>

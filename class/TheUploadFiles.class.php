@@ -80,13 +80,21 @@ class TheUploadFiles
 		$this->configValidation();
         if (file_exists($this->config["folder"]))
         {
-            return move_uploaded_file($this->file["tmp_name"], $this->config["folder"] . time() . $this->file["name"]);
+            $pathAndName = $this->config["folder"] . time();
+            $this->config["finalPath"] = $pathAndName;
+            return move_uploaded_file($this->file["tmp_name"], $pathAndName);
         }
         else
         {
             echo "A pasta destino não existe";
         }
 	}
+    
+    /*Método mostra o caminho final do arquivo juntamente com seu nome e extensão*/
+    public function showPath()
+    {
+        return $this->config["finalPath"];
+    }
     
     /*Descarregam os atributos*/
 	public function __destruct()

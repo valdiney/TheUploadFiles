@@ -33,6 +33,9 @@ if (isset($_GET["enviar"]))
     }
 }
 ?>
+
+<!--O método "showPath()" mostra o caminho do arquivo juntamente com o seu nome e extensão-->
+<a href="<?php echo $up->showPath(); ?>">Caminho do arquivo</a>
 ```
 <h3>Lembrando que</h3>
 <p>

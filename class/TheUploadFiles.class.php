@@ -16,15 +16,15 @@ class TheUploadFiles
     
     /*set - Seta os atributos*/
 	public function setInputFile($file)
-	{
-		$this->file = $file;
-	}
+    {
+         $this->file = $file;
+    }
 
 	public function sendTo($folder)
-	{
-		$this->config["folder"] = $folder;
-	}
-
+    {
+        $this->config["folder"] = $folder;
+    }
+	
 	public function setExtensions($extensions)
 	{
 		$this->extensions = $extensions;
@@ -36,23 +36,22 @@ class TheUploadFiles
 	{
 		$this->config["fileLength"] = 1024 * 1024 * 10;
 		$this->config["theExtensions"] = $this->extensions;
-		$this->config["rename"] = false;
 
         if ($this->file["error"] != 0)
         {
             switch($this->file["error"])
             {
                 case 1 :
-                    echo "O arquivo é maior do que o permitido pelo PHP";
+                    echo "O arquivo é maior do que o permitido pelo PHP: ";
                     break;
                 case 2 :
-                    echo "O arquivo ultrapassa o tamanho limite";
+                    echo "O arquivo ultrapassa o tamanho limite: ";
                     break;
                 case 3 :
-                    echo "O arquivo foi carregado parcialmente";
+                    echo "O arquivo foi carregado parcialmente: ";
                     break;
                 case 4 :
-                    echo "Não foi feito o upload do arquivo";
+                    echo "Não foi feito o upload do arquivo: ";
                     break;
             }
         }
@@ -79,10 +78,17 @@ class TheUploadFiles
 	public function move()
 	{
 		$this->configValidation();
-		return move_uploaded_file($this->file["tmp_name"], $this->config["folder"] . time() . $this->file["name"]);
+        if (file_exists($this->config["folder"]))
+        {
+            return move_uploaded_file($this->file["tmp_name"], $this->config["folder"] . time() . $this->file["name"]);
+        }
+        else
+        {
+            echo "A pasta destino não existe";
+        }
 	}
     
-    /*Descarregam os atributos, associado aos mesmos um valor nulo*/
+    /*Descarregam os atributos*/
 	public function __destruct()
 	{
 		unset($this->file);
@@ -90,4 +96,3 @@ class TheUploadFiles
 		unset($this->extensions);
 	}
 }
-

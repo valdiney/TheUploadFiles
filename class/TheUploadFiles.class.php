@@ -80,7 +80,8 @@ class TheUploadFiles
 		$this->configValidation();
         if (file_exists($this->config["folder"]))
         {
-            $pathAndName = $this->config["folder"] . time();
+            $getFinalExtension = explode(".", $this->file["name"]);
+            $pathAndName = $this->config["folder"] . time() . "." . $getFinalExtension[1];
             $this->config["finalPath"] = $pathAndName;
             return move_uploaded_file($this->file["tmp_name"], $pathAndName);
         }

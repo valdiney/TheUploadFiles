@@ -70,7 +70,7 @@ class TheUploadFiles
         }
         elseif ($this->config["fileLength"] < $this->file["size"])
         {
-        	echo 'O arquivo enviado é muito grande envie arquivos de até 2Mb';
+        	echo 'O arquivo enviado é muito grande';
         }
 	}
     

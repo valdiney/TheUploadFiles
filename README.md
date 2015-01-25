@@ -34,3 +34,7 @@ if (isset($_GET["enviar"]))
 }
 ?>
 ```
+<h3>Lembrando que</h3>
+<p>
+    No PHP com configuração padrão o limite de Upload´s está direcionado a aceitar até <b>2Mb</b>. Sendo assim recomendo que se desejar fazer o Upload de arquivos maiores consulte o seu <b>PHP.ini</b> e efetuo as possíveis mudanças.
+</p>

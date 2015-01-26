@@ -6,8 +6,8 @@ if (isset($_GET["enviar"]))
     $up = new TheUploadFiles();
     $up->setInputFile($_FILES["arquivo"]);
     $up->sendTo("arquivos/");
-    $up->setFileSize(10);
-    $extensoes = array("jpg","png","gif","pdf","doc","docx","html","txt","avi","mp4","mp3");
+    $up->SetMaxFileSize(10);
+    $extensoes = array("jpg","png","gif","pdf","doc","docx","html","txt","avi","mp4");
     $up->setExtensions($extensoes);
     if ($up->move())
     {
@@ -28,7 +28,7 @@ if (isset($_GET["enviar"]))
     <button type="submit">Enviar</button>
 </form>
 <br>
-<a href="<?php echo $up->showPath(); ?>">Caminho do arquivo</a>
+<a href="<?php echo $up->getPath(); ?>">Caminho do arquivo</a>
 </body>
 
 </html>

@@ -14,17 +14,8 @@ class TheUploadFiles
 	private $config;
 	private $file;
 	private $extensions;
-    private $allowedFileSize;
+    private $allowedFileSize = 2;
 
-    public function __construct()
-    {
-        if ($this->allowedFileSize == "")
-        {
-            $this->allowedFileSize = 2;
-        }
-    }
-
-    
     /*set - Seta os atributos*/
 	public function setInputFile($file)
 	{
@@ -41,17 +32,20 @@ class TheUploadFiles
 		$this->extensions = $extensions;
 	}
 
-    public function setFileSize($fileSize)
+    public function SetMaxFileSize($fileSize)
     {
         $this->allowedFileSize = $fileSize;
     }
     /*end set*/
-
-    /*Este método efetua um conjunto de validações*/
-	private function configValidation()
-	{
+    
+    /*Método move o arquivo para a pasta de destino*/
+    public function move()
+    {
 		$this->config["fileLength"] = 1024 * 1024 * $this->allowedFileSize;
 		$this->config["theExtensions"] = $this->extensions;
+
+        $prepareExtensions = explode(".", $this->file["name"]);
+        $prepareExtensions = strtolower(end($prepareExtensions));
 
         if ($this->file["error"] != 0)
         {
@@ -71,44 +65,33 @@ class TheUploadFiles
                     break;
             }
         }
-
-        $prepareExtensions = explode(".", $this->file["name"]);
-        $prepareExtensions = strtolower(end($prepareExtensions));
-        if (array_search($prepareExtensions, $this->config["theExtensions"]) === false)
+        elseif (array_search($prepareExtensions, $this->config["theExtensions"]) === false)
         {
-        	$typeFiles = null;
-        	foreach($this->config["theExtensions"] as $list)
-        	{
-        		$typeFiles .= $list . ", ";
-        	}
-
-        	echo  "Evie apenas esses tipos de arquivos: " . $typeFiles;
+            $typeFiles = implode(", ", $this->config["theExtensions"]);
+        	echo  " Evie apenas esses tipos de arquivos: " . $typeFiles . " ";
         }
         elseif ($this->config["fileLength"] < $this->file["size"])
         {
         	echo 'O arquivo enviado é muito grande, envie arquivos de até ' . $this->config["fileLength"];
         }
-	}
-    
-    /*Este método move os arquivos da pasta temporária para a pasta de destino.*/
-	public function move()
-	{
-		$this->configValidation();
-        if (file_exists($this->config["folder"]))
-        {
-            $getFinalExtension = explode(".", $this->file["name"]);
-            $pathAndName = $this->config["folder"] . time() . "." . $getFinalExtension[1];
-            $this->config["finalPath"] = $pathAndName;
-            return move_uploaded_file($this->file["tmp_name"], $pathAndName);
-        }
         else
         {
-            echo "A pasta destino não existe";
-        }
+            if (file_exists($this->config["folder"]))
+            {
+                $getFinalExtension = explode(".", $this->file["name"]);
+                $pathAndName = $this->config["folder"] . time() . "." . $getFinalExtension[1];
+                $this->config["finalPath"] = $pathAndName;
+                return move_uploaded_file($this->file["tmp_name"], $pathAndName);
+            }
+            else
+            {
+                return false;
+            }
+        } 
 	}
     
-    /*Método mostra o caminho final do arquivo juntamente com seu nome e extensão*/
-    public function showPath()
+    /*Método retorna o caminho final do arquivo juntamente com seu nome e extensão*/
+    public function getPath()
     {
         return $this->config["finalPath"];
     }

@@ -38,7 +38,7 @@ class TheUploadFiles
     }
     /*end set*/
     
-    /*Método move o arquivo para a pasta de destino*/
+    /*Método faz as validações de entrada*/
     public function move()
     {
 		$this->config["fileLength"] = 1024 * 1024 * $this->allowedFileSize;
@@ -72,16 +72,13 @@ class TheUploadFiles
         }
         elseif ($this->config["fileLength"] < $this->file["size"])
         {
-        	echo 'O arquivo enviado é muito grande, envie arquivos de até ' . $this->config["fileLength"];
+        	echo 'O arquivo enviado é muito grande, envie arquivos de até ' . $this->allowedFileSize . "Mb";
         }
         else
         {
             if (file_exists($this->config["folder"]))
             {
-                $getFinalExtension = explode(".", $this->file["name"]);
-                $pathAndName = $this->config["folder"] . time() . "." . $getFinalExtension[1];
-                $this->config["finalPath"] = $pathAndName;
-                return move_uploaded_file($this->file["tmp_name"], $pathAndName);
+                $this->moveFile();
             }
             else
             {
@@ -89,6 +86,15 @@ class TheUploadFiles
             }
         } 
 	}
+    
+    /*Método move o arquivo para a pasta de destino*/
+    public function moveFile()
+    {
+        $getFinalExtension = explode(".", $this->file["name"]);
+        $pathAndName = $this->config["folder"] . time() . "." . $getFinalExtension[1];
+        $this->config["finalPath"] = $pathAndName;
+        return move_uploaded_file($this->file["tmp_name"], $pathAndName);
+    }
     
     /*Método retorna o caminho final do arquivo juntamente com seu nome e extensão*/
     public function getPath()

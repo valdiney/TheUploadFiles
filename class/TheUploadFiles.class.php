@@ -92,7 +92,7 @@ class TheUploadFiles
         } 
 	}
     
-    /*Método criar a pasta se a mesma passada como argumento para o método sendTo() nãoexistir*/
+    /*Método cria a pasta se a mesma passada como argumento para o método sendTo() não existir*/
     private function createFolder()
     {
         if (!file_exists($this->config["folder"]))

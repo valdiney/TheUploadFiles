@@ -66,6 +66,6 @@ upload_max_filesize = 10M
 </p>
 
 <p>
-    Como já mostrado acima você pode usar o método <b>showPath()</b> que retorna o caminho, nome e extensão do arquivo ao qual foi feito Upload. 
+    Como já mostrado acima você pode usar o método <b>getPath()</b> que retorna o caminho, nome e extensão do arquivo ao qual foi feito Upload. 
     Esse método pode retornar algo como: http://127.0.0.1:8887/TheUploadFiles/arquivos/1422219491.pdf
 </p>

@@ -5,7 +5,7 @@
 * @var $file - Array -  $_FILES contendo o nome do campo file
 * @var $extensios - Array - contendo os tipos dos arquivos que você deseja permitir
 * @var $allowedFileSize - Int Tamanho máximo que você queira permitir
-* @version 0.1
+* @version 0.2
 * @author Valdiney França
 */
 
@@ -47,7 +47,11 @@ class TheUploadFiles
         $prepareExtensions = explode(".", $this->file["name"]);
         $prepareExtensions = strtolower(end($prepareExtensions));
 
-        if ($this->file["error"] != 0)
+        if (!is_array($this->extensions) or !is_array($this->file))
+        {
+            echo "Os argumentos passados nos métodos (setExtensions e sendTo) precisam ser do tipo Array";
+        }
+        elseif ($this->file["error"] != 0)
         {
             switch($this->file["error"])
             {
@@ -88,7 +92,7 @@ class TheUploadFiles
 	}
     
     /*Método move o arquivo para a pasta de destino*/
-    public function moveFile()
+    private function moveFile()
     {
         $getFinalExtension = explode(".", $this->file["name"]);
         $pathAndName = $this->config["folder"] . time() . "." . $getFinalExtension[1];

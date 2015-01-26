@@ -46,6 +46,7 @@ class TheUploadFiles
 
         $prepareExtensions = explode(".", $this->file["name"]);
         $prepareExtensions = strtolower(end($prepareExtensions));
+        $this->createFolder();
 
         if (!is_array($this->extensions) or !is_array($this->file))
         {
@@ -90,6 +91,15 @@ class TheUploadFiles
             }
         } 
 	}
+    
+    /*Método criar a pasta se a mesma passada como argumento para o método sendTo() nãoexistir*/
+    private function createFolder()
+    {
+        if (!file_exists($this->config["folder"]))
+        {
+            mkdir($this->config["folder"], 0777, true);
+        }
+    }
     
     /*Método move o arquivo para a pasta de destino*/
     private function moveFile()

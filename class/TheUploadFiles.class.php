@@ -5,8 +5,9 @@
 * @var $file - Array -  $_FILES contendo o nome do campo file
 * @var $extensios - Array - contendo os tipos dos arquivos que você deseja permitir
 * @var $allowedFileSize - Int Tamanho máximo que você queira permitir
+* @license http://opensource.org/licenses/gpl-license.php GNU Public License
+* @author Valdiney França <valdiney.2@hotmail.com>
 * @version 0.2
-* @author Valdiney França
 */
 
 class TheUploadFiles

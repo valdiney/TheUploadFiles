@@ -114,6 +114,7 @@ class TheUploadFiles
     /*Método retorna o caminho final do arquivo juntamente com seu nome e extensão*/
     public function getPath()
     {
+        $this->moveFile();
         return $this->config["finalPath"];
     }
     

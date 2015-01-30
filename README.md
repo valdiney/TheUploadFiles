@@ -41,6 +41,60 @@ if (isset($_GET["enviar"]))
 <a href="<?php echo $up->getPath(); ?>">Caminho do arquivo</a>
 ```
 
+<h3>Exemplo de uso ( RECOMENDADO ):</h3>
+<p>
+    A maior parte de um script que trata da função de realizar Upload de arquivos e composta por varias validações. Fazer o Upload de arquivos pode apresentar certos perigos de segurança e por isso precisamos minimizar esses perigos validando cuidadosamente a entrada e natureza desses arquivos que serão enviados ao servidor. 
+</p>
+
+<h3>Método getErros():</h3>
+<p>
+    Assim que o Script encontrar algum erro ele carrega o número desse erro e interrompe o envio do arquivo para o servidor. Os usuário precisam saber quais foram os motivos do arquivo não ter sido enviado, sendo assim a utilização do método <b>getErros()</b> de ta a flexibilidade de apresentar para o usuário mensagens de erros personalizadas.
+</p>
+
+```php
+<?php
+require_once("class/TheUploadFiles.class.php");
+
+if (isset($_GET["enviar"]))
+{
+    $up = new TheUploadFiles();
+    $up->setInputFile($_FILES["arquivo"]);
+    $up->sendTo("arquivos/");
+    $up->SetMaxFileSize(2);
+    $extensoes = array("jpg","png","gif","pdf","doc","docx","html","txt","avi","mp4");
+    $up->setExtensions($extensoes);
+
+    if ($up->getErros() == 1)
+    {
+        echo "Erro ( Clítico ) referente ao tamanho máximo configurado no php.ini, por favor, entre em contato com os administradores do sistema";
+    }
+    elseif ($up->getErros() == 2)
+    {
+        echo "Os argumentos passados nos métodos (setExtensions e sendTo) precisam ser do tipo Array...";
+    }
+    elseif ($up->getErros() == 3)
+    {
+        echo "Ultrapaçou o tamanho limite para Upload definido pelo sistema";
+    }
+    elseif ($up->getErros() == 4)
+    {
+        echo "Esse formato de arquivo não é permitido pelo sistema";
+    }
+    elseif ($up->move())
+    {
+        echo "Arquivo enviado com Sucesso";
+    }
+}
+?>
+```
+<h3>Número das mensagens de Erros:</h3>
+```txt
+* 1 = Erro ( Critico ) referente ao tamanho máximo configurado no php.ini
+* 2 = Erro ao tentar fazer upload de extensões não permitidas pelo utilizador
+* 3 = Ultrapassam o tamanho Maximo de upload definido pelo utilizador
+* 4 = Referente a tentativa de upload com formatos de arquivos não permitido pelo utilizador
+```
+
 <h3>Obs:</h3>
 <p>
     O método <b>SetMaxFileSize([int])</b> recebe como argumento um número inteiro. A classe recebe este número e efetua o calculo para obter o tamanho em <b>Bytes</b>, ou seja, se você passar para o método o valor 4 a classe entenderá que você deseja permitir arquivos de até <b>4Mb</b>.

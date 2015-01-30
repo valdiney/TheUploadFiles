@@ -66,7 +66,7 @@ if (isset($_GET["enviar"]))
 
     if ($up->getErros() == 1)
     {
-        echo "Erro ( Crítico ) referente ao tamanho máximo configurado no php.ini, por favor, entre em contato com os administradores do sistema";
+        echo "Erro ( Critico ) referente ao tamanho máximo configurado no php.ini, por favor, entre em contato com os administradores do sistema";
     }
     elseif ($up->getErros() == 2)
     {
@@ -90,7 +90,7 @@ if (isset($_GET["enviar"]))
 <h3>Número das mensagens de Erros:</h3>
 ```txt
 * 1 = Erro ( Critico ) referente ao tamanho máximo configurado no php.ini
-* 2 = Erro ao tentar fazer upload de extensões não permitidas pelo utilizador
+* 2 = O argumento passado para os métodos ( setInputFile() e setExtensions() ) precisam ser do tipo Array
 * 3 = Ultrapassam o tamanho Maximo de upload definido pelo utilizador
 * 4 = Referente a tentativa de upload com formatos de arquivos não permitido pelo utilizador
 ```

@@ -1,12 +1,22 @@
 <?php 
 /**
 * Class para fazer Upload de pequenos arquivos...
-* @var $config - Array - de possíveis erros que podem ocorrer
-* @var $file - Array -  $_FILES contendo o nome do campo file
-* @var $extensios - Array - contendo os tipos dos arquivos que você deseja permitir
-* @var $allowedFileSize - Int Tamanho máximo que você queira permitir
-* @version 0.2
-* @author Valdiney França
+* @var $config ------------ Array - de possíveis erros que podem ocorrer
+* @var $file -------------- Array -  $_FILES contendo o nome do campo file
+* @var $extensios --------- Array - contendo os tipos dos arquivos que você deseja permitir
+* @var $allowedFileSize --- Int Tamanho máximo que você queira permitir
+* @version 0.3
+* @author Valdiney França <valdiney.2@hotmail.com>
+*
+*--------------------------------------------------------------------------------------------------
+* Mensagens de Erro.
+* 1 = Erro ( Critico ) referente ao tamanho máximo configurado no php.ini
+* 2 = Erro ao tentar fazer upload de extensões não permitidas pelo utilizador
+* 3 = Ultrapassam o tamanho Maximo de upload definido pelo utilizador
+* 4 = Referente a tentativa de upload com formatos de arquivos não permitido pelo utilizador
+*
+*---------------------------------------------------------------------------------------------------
+*
 */
 
 class TheUploadFiles
@@ -15,6 +25,16 @@ class TheUploadFiles
 	private $file;
 	private $extensions;
     private $allowedFileSize = 2;
+    private $internalErros;
+    
+    /*Inicialmente as mensagens internas de erros são todas Nulas*/
+    public function __construct()
+    {
+        $this->internalErros["1"] = null;
+        $this->internalErros["2"] = null;
+        $this->internalErros["3"] = null;
+        $this->internalErros["4"] = null;
+    }
 
     /*set - Seta os atributos*/
 	public function setInputFile($file)
@@ -50,40 +70,29 @@ class TheUploadFiles
 
         if (!is_array($this->extensions) or !is_array($this->file))
         {
-            echo "Os argumentos passados nos métodos (setExtensions e sendTo) precisam ser do tipo Array";
+            $this->internalErros["2"] = 1;
         }
         elseif ($this->file["error"] != 0)
         {
-            switch($this->file["error"])
+            if ($this->file["error"] == 1)
             {
-                case 1 :
-                    echo "O arquivo é maior do que o permitido pelo PHP: ";
-                    break;
-                case 2 :
-                    echo "O arquivo ultrapassa o tamanho limite: ";
-                    break;
-                case 3 :
-                    echo "O arquivo foi carregado parcialmente: ";
-                    break;
-                case 4 :
-                    echo "Não foi feito o upload do arquivo: ";
-                    break;
+                $this->internalErros["1"] = 1;
             }
         }
         elseif (array_search($prepareExtensions, $this->config["theExtensions"]) === false)
         {
-            $typeFiles = implode(", ", $this->config["theExtensions"]);
-        	echo  " Evie apenas esses tipos de arquivos: " . $typeFiles . " ";
+            $this->internalErros["4"] = 1;
         }
         elseif ($this->config["fileLength"] < $this->file["size"])
         {
-        	echo 'O arquivo enviado é muito grande, envie arquivos de até ' . $this->allowedFileSize . "Mb";
+        	$this->internalErros["3"] = 1;
         }
         else
         {
             if (file_exists($this->config["folder"]))
             {
                 $this->moveFile();
+                return true;
             }
             else
             {
@@ -92,7 +101,7 @@ class TheUploadFiles
         } 
 	}
     
-    /*Método criar a pasta se a mesma passada como argumento para o método sendTo() nãoexistir*/
+    /*Método cria a pasta se a mesma passada como argumento para o método sendTo() não existir*/
     private function createFolder()
     {
         if (!file_exists($this->config["folder"]))
@@ -116,7 +125,29 @@ class TheUploadFiles
         return $this->config["finalPath"];
     }
     
-    /*Descarregam os atributos*/
+    /*Método pega status de erros gerados pela class durante suas validações*/
+    public function getErros()
+    {
+        $this->move();
+        if ($this->internalErros["1"] != null)
+        {
+            return 1;
+        }
+        elseif ($this->internalErros["2"] != null)
+        {
+            return 2;
+        }
+        elseif ($this->internalErros["3"] != null)
+        {
+            return 3;
+        }
+        elseif ($this->internalErros["4"] != null)
+        {
+            return 4;
+        }
+    }
+
+    /*Descarregando os atributos*/
 	public function __destruct()
 	{
 		unset($this->file);

@@ -9,7 +9,24 @@ if (isset($_GET["enviar"]))
     $up->SetMaxFileSize(1);
     $extensoes = array("jpg","png","gif","pdf","doc","docx","html","txt","avi","mp4");
     $up->setExtensions($extensoes);
-    if ($up->move())
+
+    if ($up->getErros() == 1)
+    {
+        echo "Erro ( Clítico ) referente ao tamanho máximo configurado no php.ini, por favor, entre em contato com os administradores do sistema";
+    }
+    elseif ($up->getErros() == 2)
+    {
+        echo "Os argumentos passados nos métodos (setExtensions e sendTo) precisam ser do tipo Array...";
+    }
+    elseif ($up->getErros() == 3)
+    {
+        echo "Ultrapaçou o tamanho limite para Upload definido pelo sistema";
+    }
+    elseif ($up->getErros() == 4)
+    {
+        echo "Esse formato de arquivo não é permitido pelo sistema";
+    }
+    elseif ($up->move())
     {
         echo "Arquivo enviado com Sucesso";
     }

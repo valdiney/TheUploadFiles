@@ -66,7 +66,7 @@ if (isset($_GET["enviar"]))
 
     if ($up->getErros() == 1)
     {
-        echo "Erro ( Clítico ) referente ao tamanho máximo configurado no php.ini, por favor, entre em contato com os administradores do sistema";
+        echo "Erro ( Crítico ) referente ao tamanho máximo configurado no php.ini, por favor, entre em contato com os administradores do sistema";
     }
     elseif ($up->getErros() == 2)
     {

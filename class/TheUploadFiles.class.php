@@ -1,12 +1,14 @@
 <?php 
 /**
 * Class para fazer Upload de pequenos arquivos...
-* @var $config ------------ Array - de possíveis erros que podem ocorrer
-* @var $file -------------- Array -  $_FILES contendo o nome do campo file
-* @var $extensios --------- Array - contendo os tipos dos arquivos que você deseja permitir
-* @var $allowedFileSize --- Int Tamanho máximo que você queira permitir
-* @version 0.3
+*
+* @var $config - Array - de possíveis erros que podem ocorrer
+* @var $file - Array -  $_FILES contendo o nome do campo file
+* @var $extensios - Array - contendo os tipos dos arquivos que você deseja permitir
+* @var $allowedFileSize - Int Tamanho máximo que você queira permitir
+* @license http://opensource.org/licenses/gpl-license.php GNU Public License
 * @author Valdiney França <valdiney.2@hotmail.com>
+* @version 0.2
 *
 *--------------------------------------------------------------------------------------------------
 * Mensagens de Erro.
@@ -122,6 +124,7 @@ class TheUploadFiles
     /*Método retorna o caminho final do arquivo juntamente com seu nome e extensão*/
     public function getPath()
     {
+        $this->moveFile();
         return $this->config["finalPath"];
     }
     

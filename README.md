@@ -7,12 +7,12 @@ Class PHP para efetuar o Upload de arquivos
 <h3>Exemplo de uso:</h3>
 ```php
 <?php
-require_once("class/TheUploadFiles.class.php");
+require_once("upfiles/UploadFiles.php");
 
 if (isset($_GET["enviar"]))
 {
 	/*Instanciando o objeto*/
-    $up = new TheUploadFiles(); 
+     $up = new upfiles\UploadFiles();
 
     /*Passando o nome do campo File*/
     $up->setInputFile($_FILES["arquivo"]); 
@@ -53,11 +53,11 @@ if (isset($_GET["enviar"]))
 
 ```php
 <?php
-require_once("class/TheUploadFiles.class.php");
+require_once("upfiles/UploadFiles.php");
 
 if (isset($_GET["enviar"]))
 {
-    $up = new TheUploadFiles();
+    $up = new upfiles\UploadFiles();
     $up->setInputFile($_FILES["arquivo"]);
     $up->sendTo("arquivos/");
     $up->SetMaxFileSize(2);

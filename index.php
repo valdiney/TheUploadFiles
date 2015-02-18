@@ -1,13 +1,13 @@
 <?php
-require_once("class/TheUploadFiles.class.php");
+require_once("upfiles/UploadFiles.php");
 
 if (isset($_GET["enviar"]))
 {
-    $up = new TheUploadFiles();
+    $up = new upfiles\UploadFiles();
     $up->setInputFile($_FILES["arquivo"]);
     $up->sendTo("arquivos/");
     $up->SetMaxFileSize(1);
-    $extensoes = array("jpg","png","gif","pdf","doc","docx","html","txt","avi","mp4");
+    $extensoes = array("jpg", "png", "gif", "pdf", "doc", "docx", "html", "txt", "avi", "mp4");
     $up->setExtensions($extensoes);
 
     if ($up->getErros() == 1)
@@ -45,7 +45,9 @@ if (isset($_GET["enviar"]))
     <button type="submit">Enviar</button>
 </form>
 <br>
-<a href="<?php echo $up->getPath(); ?>">Caminho do arquivo</a>
+<?php if (isset($_GET["enviar"])): ?>
+    <a href="<?php echo $up->getPath(); ?>">Caminho do arquivo</a>
+<?php endif; ?>
 </body>
 
 </html>

@@ -4,6 +4,13 @@ Class PHP para efetuar o Upload de arquivos
 	Para fazer uso da class basta chamá-la, instanciá-la e passar os valores exigidos para os seus métodos e em seguida  chamar o método que realiza o upload.
 </p>
 
+<p>
+    Você também pode fazer a instalação da dessa classe via <b>composer</a>. Bastando configurar o require eu seu <b>arquivo composer.json</b>
+    require: "valdiney/upload-files": "dev-master"
+</p>
+
+<a href="https://packagist.org/packages/valdiney/upload-files" target="_blank">Visitar projeto no packagist</a>
+
 <h3>Exemplo de uso:</h3>
 ```php
 <?php
@@ -48,7 +55,7 @@ if (isset($_GET["enviar"]))
 
 <h3>Método getErros():</h3>
 <p>
-    Quando o Script encontra um erro o mesmo guarda em memória o número referente a este erro e interrompe o envio do arquivo para o servidor. Os usuário precisam saber quais foram os motivos do arquivo não ter sido enviado, sendo assim, a utilização do método <b>getErros()</b> te da a flexibilidade de apresentar para o usuário mensagens de erros personalizadas.
+    Quando o Script encontra um erro o mesmo guarda em memória o número referente a este erro e interrompe o envio do arquivo para o servidor. Os usuários precisam saber quais foram os motivos do arquivo não ter sido enviado, sendo assim, a utilização do método <b>getErros()</b> te da a flexibilidade de apresentar para o usuário mensagens de erros personalizadas.
 </p>
 
 ```php

@@ -1,9 +1,10 @@
 <?php
 require_once("upfiles/UploadFiles.php");
+use upfiles\UploadFiles as Up;
 
 if (isset($_GET["enviar"]))
 {
-    $up = new upfiles\UploadFiles();
+    $up = new upfiles\Up();
     $up->setInputFile($_FILES["arquivo"]);
     $up->sendTo("arquivos/");
     $up->SetMaxFileSize(1);

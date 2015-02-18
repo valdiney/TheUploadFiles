@@ -1,10 +1,10 @@
 {
 	"name":"valdiney/upload-files",
+	"description":"Using this class you can do upload many files to your server. Make a test it's very easy",
 	"authors": [
 	{
 		"name":"Valdiney França",
-		"email":"valdiney.2@hotmail.com",
-		"description":"Using this class you can do upload many files to your server. Make a test it's very easy"
+		"email":"valdiney.2@hotmail.com"
 	}
 	]
 }

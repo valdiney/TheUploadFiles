@@ -16,7 +16,7 @@
 *
 *--------------------------------------------------------------------------------------------------
 * 
-* Error message.
+* Message Error.
 * 1 = Error (Critical) for the maximum size set in php.ini
 * 2 = Error when trying to upload extensions not allowed by the user
 * 3 = Beyond the user-defined size Maximum upload
@@ -77,7 +77,7 @@ class UploadFiles
         $prepareExtensions = strtolower(end($prepareExtensions));
         $this->createFolder();
 
-        if (!is_array($this->extensions) or !is_array($this->file))
+        if ( ! is_array($this->extensions) or ! is_array($this->file))
         {
             $this->internalErros["2"] = 1;
         }
@@ -111,7 +111,7 @@ class UploadFiles
     /*This method create the folder that will be passed like argument for the method sendTo() if the folder no exist*/
     private function createFolder()
     {
-        if (!file_exists($this->config["folder"]))
+        if ( ! file_exists($this->config["folder"]))
         {
             mkdir($this->config["folder"], 0777, true);
         }

@@ -1,25 +1,31 @@
 <?php 
 /**
-* Class para fazer Upload de pequenos arquivos...
+* This class is used to make the upload of the files to the server
+**--------------------------------------------------------------------------------------------------
 *
-* @var $config - Array - de possíveis erros que podem ocorrer
-* @var $file - Array -  $_FILES contendo o nome do campo file
-* @var $extensios - Array - contendo os tipos dos arquivos que você deseja permitir
-* @var $allowedFileSize - Int Tamanho máximo que você queira permitir
+* @var $config:           Array that stores the errors that will be generated
+* @var $file:             Array -  $_FILES containing the name of the file field
+* @var $extensios:        Array - containing the types of files that you want to allow
+* @var $allowedFileSize:  Int Maximum size that you want to allow
+*
+*--------------------------------------------------------------------------------------------------
+*
 * @license http://opensource.org/licenses/gpl-license.php GNU Public License
 * @author Valdiney França <valdiney.2@hotmail.com>
 * @version 0.2
 *
 *--------------------------------------------------------------------------------------------------
-* Mensagens de Erro.
-* 1 = Erro ( Critico ) referente ao tamanho máximo configurado no php.ini
-* 2 = Erro ao tentar fazer upload de extensões não permitidas pelo utilizador
-* 3 = Ultrapassam o tamanho Maximo de upload definido pelo utilizador
-* 4 = Referente a tentativa de upload com formatos de arquivos não permitido pelo utilizador
+* 
+* Error message.
+* 1 = Error (Critical) for the maximum size set in php.ini
+* 2 = Error when trying to upload extensions not allowed by the user
+* 3 = Beyond the user-defined size Maximum upload
+* 4 = Regarding the attempt to upload with file formats not allowed by the user
 *
 *---------------------------------------------------------------------------------------------------
 *
 */
+
 namespace upfiles;
 
 class UploadFiles
@@ -30,7 +36,7 @@ class UploadFiles
     private $allowedFileSize = 2;
     private $internalErros;
     
-    /*Inicialmente as mensagens internas de erros são todas Nulas*/
+    /*The message error it's beginning null*/
     public function __construct()
     {
         $this->internalErros["1"] = null;
@@ -39,7 +45,7 @@ class UploadFiles
         $this->internalErros["4"] = null;
     }
 
-    /*set - Seta os atributos*/
+    /*Setting the attributes*/
 	public function setInputFile($file)
 	{
 		$this->file = $file;
@@ -61,7 +67,7 @@ class UploadFiles
     }
     /*end set*/
     
-    /*Método faz as validações de entrada*/
+    /*This method do the input validation */
     public function move()
     {
 		$this->config["fileLength"] = 1024 * 1024 * $this->allowedFileSize;
@@ -102,7 +108,7 @@ class UploadFiles
         } 
 	}
     
-    /*Método cria a pasta se a mesma passada como argumento para o método sendTo() não existir*/
+    /*This method create the folder that will be passed like argument for the method sendTo() if the folder no exist*/
     private function createFolder()
     {
         if (!file_exists($this->config["folder"]))
@@ -111,7 +117,7 @@ class UploadFiles
         }
     }
     
-    /*Método move o arquivo para a pasta de destino*/
+    /*This method move the files to the folder destination*/
     private function moveFile()
     {
         $getFinalExtension = explode(".", $this->file["name"]);
@@ -120,14 +126,14 @@ class UploadFiles
         return move_uploaded_file($this->file["tmp_name"], $pathAndName);
     }
     
-    /*Método retorna o caminho final do arquivo juntamente com seu nome e extensão*/
+    /*This method return the final name of the files and your extension*/
     public function getPath()
     {
         $this->moveFile();
         return $this->config["finalPath"];
     }
     
-    /*Método pega status de erros gerados pela class durante suas validações*/
+    /*This method get status of errors*/
     public function getErros()
     {
         $this->move();
@@ -149,7 +155,7 @@ class UploadFiles
         }
     }
 
-    /*Descarregando os atributos*/
+    /*Empty the attributes*/
 	public function __destruct()
 	{
 		unset($this->file);

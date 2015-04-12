@@ -1,6 +1,6 @@
 <?php 
 /**
-* This class is used to make the upload of the files to the server
+* This class is used to do the upload of the files to the server
 **--------------------------------------------------------------------------------------------------
 *
 * @var $config:           Array that stores the errors that will be generated

@@ -1,8 +1,5 @@
 # TheUploadFiles
 Class PHP para efetuar o Upload de arquivos
-<p>
-	Para usar a classe é muito simples! Basta chama lá, instância e passar os valores para os métodos, depois basta chamar o método que realizará o Upload.  
-</p>
 
 <b>Instalação:</b>
 <p>
@@ -33,7 +30,7 @@ Class PHP para efetuar o Upload de arquivos
     # Método opcional, por padrão a classe permite o tamanho padrão configurado pelo PHP que é 2Mb
     $up->maxSize(4);
     
-    # Passando um Array de Intenções que poderá ser enviado para o servidor
+    # Passando um Array de Extensões que poderá ser enviado para o servidor
     $up->extensions(array("jpg","png","gif","pdf","doc","docx","html","txt"));
     
     # Método que realiza o Upload
@@ -77,7 +74,7 @@ Class PHP para efetuar o Upload de arquivos
     # Método opcional, por padrão a classe permite o tamanho padrão configurado pelo PHP que é 2Mb
     $up->maxSize(4);
 
-    # Passando um Array de Intenções que poderá ser enviado para o servidor
+    # Passando um Array de Extensões que poderá ser enviado para o servidor
     $up->extensions(array("jpg","png","gif","pdf","doc","docx","html","txt"));
 
     if ($up->getErrors() == 1) {

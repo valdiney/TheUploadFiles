@@ -4,32 +4,29 @@ require_once("upfiles/UploadFiles.php");
 if (isset($_GET["enviar"]))
 {
     $up = new upfiles\UploadFiles();
-    $up->setInputFile($_FILES["arquivo"]);
-    $up->sendTo("arquivos/");
-    $up->SetMaxFileSize(1);
-    $extensoes = array("jpg", "png", "gif", "pdf", "doc", "docx", "html", "txt", "avi", "mp4");
-    $up->setExtensions($extensoes);
 
-    if ($up->getErros() == 1)
-    {
-        echo "Erro ( Clítico ) referente ao tamanho máximo configurado no php.ini, por favor, entre em contato com os administradores do sistema";
+    $up->file($_FILES["arquivo"]);
+    $up->folder("arquivos/");
+    $up->maxSize(4);
+    $up->extensions(array("png","gif","pdf","doc","docx","html","txt","avi","mp4", "zip"));
+
+    if ($up->getErrors() == 1) {
+        echo "Formato não esperado";
+        return false;
     }
-    elseif ($up->getErros() == 2)
-    {
-        echo "Os argumentos passados nos métodos (setExtensions e sendTo) precisam ser do tipo Array...";
+
+    if ($up->getErrors() == 2) {
+        echo "O tamanho limite para Upload é de 4MB";
+        return false;
     }
-    elseif ($up->getErros() == 3)
-    {
-        echo "Ultrapaçou o tamanho limite para Upload definido pelo sistema";
+
+    try {
+        $up->move();
+        echo "Upload feito com Sucesso!";
+    } catch(\Exception $e) {
+        echo "Ocorreu um erro ao tentar fazer o Upload: " . $e->getMessage();
     }
-    elseif ($up->getErros() == 4)
-    {
-        echo "Esse formato de arquivo não é permitido pelo sistema";
-    }
-    elseif ($up->move())
-    {
-        echo "Arquivo enviado com Sucesso";
-    }
+       
 }
 ?>
 <!DOCTYPE html>
@@ -46,8 +43,8 @@ if (isset($_GET["enviar"]))
 </form>
 <br>
 <?php if (isset($_GET["enviar"])): ?>
-    <a href="<?php echo $up->getPath(); ?>">Caminho do arquivo</a>
-<?php endif; ?>
+    <a href="<?php echo $up->destinationPath(); ?>">Caminho do arquivo</a>
+<?php endif;?>
 </body>
 
 </html>

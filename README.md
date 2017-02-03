@@ -1,110 +1,112 @@
 # TheUploadFiles
 Class PHP para efetuar o Upload de arquivos
 <p>
-	Para fazer uso da class basta chamá-la, instanciá-la e passar os valores exigidos para os seus métodos e em seguida  chamar o método que realiza o upload.
+	Para usar a classe é muito simples! Basta chama lá, instância e passar os valores para os métodos, depois basta chamar o método que realizará o Upload.  
 </p>
 
+<b>Instalação:</b>
 <p>
     Você também pode fazer a instalação dessa classe via <b>composer</b>. Bastando configurar o require eu seu <b>arquivo composer.json</b>
     require: "valdiney/upload-files": "dev-master"
 </p>
 
-<a href="https://packagist.org/packages/valdiney/upload-files" target="_blank">Visitar projeto no packagist</a>
+<a href="https://packagist.org/packages/valdiney/upload-files" target="_blank">Visite o projeto no Packagist</a>
 
 <h3>Exemplo de uso:</h3>
 ```php
 <?php
-require_once("upfiles/UploadFiles.php");
+    # Incluindo a Classe para uso
+    require_once("upfiles/UploadFiles.php");
 
-if (isset($_GET["enviar"]))
-{
-	/*Instanciando o objeto*/
-     $up = new upfiles\UploadFiles();
+	# Instanciando o objeto
+    $up = new upfiles\UploadFiles();
+    
+    # Recebe o arquivo do Formulário
+    $arquivo = $_FILES["arquivo"];
 
-    /*Passando o nome do campo File*/
-    $up->setInputFile($_FILES["arquivo"]); 
+    # Passando arquivo para a Classe
+    $up->file($arquivo); 
     
-    /*Passando o nome da pasta de destino*/
-    $up->sendTo("arquivos/"); 
+    # Passando o nome da pasta para onde você mandará o arquivo
+    $up->folder("arquivos/"); 
     
-    /*Método opcional, por padrão a classe permite o tamanho padrão configurado pelo PHP que é 2Mb*/
-    $up->SetMaxFileSize(4);
+    # Método opcional, por padrão a classe permite o tamanho padrão configurado pelo PHP que é 2Mb
+    $up->maxSize(4);
     
-    /*Exemplo de um Array de extensões que você pode permitir para upload*/
-    $extensoes = array("jpg","png","gif","pdf","doc","docx","html","txt"); 
-
-    /*Passando o Array para o método que set seu valor para a class*/
-    $up->setExtensions($extensoes);
+    # Passando um Array de Intenções que poderá ser enviado para o servidor
+    $up->extensions(array("jpg","png","gif","pdf","doc","docx","html","txt"));
     
-    /*Método que manda os arquivos para pasta de destino*/
-    if ($up->move())
-    {
+    # Método que realiza o Upload
+    if ($up->move()) {
         echo "Arquivo enviado com Sucesso";
     }
-}
 ?>
 
-<!--O método "getPath()" mostra o caminho do arquivo juntamente com o seu nome e extensão-->
-<a href="<?php echo $up->getPath(); ?>">Caminho do arquivo</a>
+<!--O método "destinationPath()" retorna o caminho do arquivo juntamente com o seu nome e extensão-->
+<a href="<?php echo $up->destinationPath(); ?>">Caminho do arquivo</a>
 ```
 
 <h3>Exemplo de uso ( RECOMENDADO ):</h3>
 <p>
-    A maior parte de um script que trata da função de realizar Upload de arquivos é composta por varias validações. Fazer o Upload de arquivos pode apresentar certos perigos de segurança, por isso, precisamos minimizar os perigos validando cuidadosamente a entrada e natureza dos arquivos que serão enviados ao servidor. 
+    A maior parte de um script que realiza o Upload de arquivos é composta por varias validações. Fazer o Upload de arquivos pode apresentar certos perigos de segurança, por isso, precisamos minimizar os perigos validando cuidadosamente a entrada e natureza dos arquivos que serão enviados ao servidor.
 </p>
 
-<h3>Método getErros():</h3>
+<h3>Método getErrors():</h3>
 <p>
-    Quando o Script encontra um erro o mesmo guarda em memória o número referente a este erro e interrompe o envio do arquivo para o servidor. Os usuários precisam saber quais foram os motivos do arquivo não ter sido enviado, sendo assim, a utilização do método <b>getErros()</b> te da a flexibilidade de apresentar para o usuário mensagens de erros personalizadas.
+    Quando o Script encontra um erro, guarda em memória o número referente ao erro! Você pode recuperar o erro e interrompe o envio do arquivo para o servidor. 
+    Recupere os erros por via do método <b>getErrors()</b>
 </p>
 
 ```php
 <?php
-require_once("upfiles/UploadFiles.php");
+    # Incluindo a Classe para uso
+    require_once("upfiles/UploadFiles.php");
 
-if (isset($_GET["enviar"]))
-{
+    # Instanciando o objeto
     $up = new upfiles\UploadFiles();
-    $up->setInputFile($_FILES["arquivo"]);
-    $up->sendTo("arquivos/");
-    $up->SetMaxFileSize(2);
-    $extensoes = array("jpg","png","gif","pdf","doc","docx","html","txt","avi","mp4");
-    $up->setExtensions($extensoes);
+    
+    # Recebe o arquivo do Formulário
+    $arquivo = $_FILES["arquivo"];
 
-    if ($up->getErros() == 1)
-    {
-        echo "Erro ( Critico ) referente ao tamanho máximo configurado no php.ini, por favor, entre em contato com os administradores do sistema";
+    # Passando arquivo para a Classe
+    $up->file($arquivo); 
+    
+    # Passando o nome da pasta para onde você mandará o arquivo
+    $up->folder("arquivos/"); 
+    
+    # Método opcional, por padrão a classe permite o tamanho padrão configurado pelo PHP que é 2Mb
+    $up->maxSize(4);
+
+    # Passando um Array de Intenções que poderá ser enviado para o servidor
+    $up->extensions(array("jpg","png","gif","pdf","doc","docx","html","txt"));
+
+    if ($up->getErrors() == 1) {
+        echo "Formato de Arquivo não Permitido!";
+        return false;
     }
-    elseif ($up->getErros() == 2)
-    {
-        echo "Os argumentos passados nos métodos (setExtensions e sendTo) precisam ser do tipo Array...";
+
+    if ($up->getErrors() == 2) {
+        echo "O tamanho limite para Upload é de 4Mb";
+        return false;
     }
-    elseif ($up->getErros() == 3)
-    {
-        echo "Ultrapaçou o tamanho limite para Upload definido pelo sistema";
+
+    try {
+        $up->move();
+        echo "Upload feito com Sucesso!";
+    } catch(\Exception $e) {
+        echo "Ocorreu um erro ao tentar fazer o Upload: " . $e->getMessage();
     }
-    elseif ($up->getErros() == 4)
-    {
-        echo "Esse formato de arquivo não é permitido pelo sistema";
-    }
-    elseif ($up->move())
-    {
-        echo "Arquivo enviado com Sucesso";
-    }
-}
 ?>
 ```
 <h3>Número das mensagens de Erros:</h3>
 ```txt
-* 1 = Erro ( Critico ) referente ao tamanho máximo configurado no php.ini
-* 2 = O argumento passado para os métodos ( setInputFile() e setExtensions() ) precisam ser do tipo Array
-* 3 = Ultrapassam o tamanho Maximo de upload definido pelo utilizador
-* 4 = Referente a tentativa de upload com formatos de arquivos não permitido pelo utilizador
+* 1 = Formato de Arquivo não permitido no método (extensions)
+* 2 = Tamanho de Arquivo ultrapassou o definido no método (maxSize)
 ```
 
 <h3>Obs:</h3>
 <p>
-    O método <b>SetMaxFileSize([int])</b> recebe como argumento um número inteiro. A classe recebe este número e efetua o calculo para obter o tamanho em <b>Bytes</b>, ou seja, se você passar para o método o valor 4 a classe entenderá que você deseja permitir arquivos de até <b>4Mb</b>.
+    O método <b>maxSize([int])</b> recebe como argumento um número inteiro. A classe recebe este número e efetua o calculo para obter o tamanho em <b>Bytes</b>, ou seja, se você passar para o método o valor 4 a classe entenderá que você deseja permitir arquivos de até <b>4Mb</b>.
     Infelizmente esse método é totalmente dependente das suas configurações no <b>PHP.ini</b>, por padrão estará no   <b>PHP.ini</b> o valor 2, ou seja, <b>2Mb</b>. Sendo assim este método deve ser usado somente se você configurar o <b>PHP.ini</b> para permitir um valor maior.
 </p>
 
@@ -121,12 +123,10 @@ upload_max_filesize = 2M
 upload_max_filesize = 10M
 ```
 
-<h3>Mais sobre o método getPath()</h3>
+<h3>Mais sobre o método destinationPath()</h3>
 <p>
-    Geralmente depois de efetuar o Upload do arquivo gostaríamos de gravar o mesmo na base de dados, mas que método eu uso para recuperar o nome e caminho do arquivo que eu acabei de fazer o Upload?
-</p>
+    Para recuperar o caminho de destino do Arquivo enviado para o servidor, você pode usar o método <b>destinationPath()</b> que re torna o caminho completo do arquivo juntamente com o novo nome e extensão.
 
-<p>
-    Como já mostrado acima você pode usar o método <b>getPath()</b> que retorna o caminho, nome e extensão do arquivo ao qual foi feito Upload. 
+    <br>
     Esse método pode retornar algo como: http://127.0.0.1:8887/TheUploadFiles/arquivos/1422219491.pdf
 </p>

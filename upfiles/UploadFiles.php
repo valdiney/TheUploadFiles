@@ -12,62 +12,59 @@
 *
 * @license http://opensource.org/licenses/gpl-license.php GNU Public License
 * @author Valdiney França <valdiney.2@hotmail.com>
-* @version 0.2
+* @version 0.3
 *
 *--------------------------------------------------------------------------------------------------
 * 
 * Message Error.
-* 1 = Error (Critical) for the maximum size set in php.ini
-* 2 = Error when trying to upload extensions not allowed by the user
-* 3 = Beyond the user-defined size Maximum upload
-* 4 = Regarding the attempt to upload with file formats not allowed by the user
+* 1 = Error when trying to upload extensions not allowed by the user
+* 2 = Error Beyond the user-defined size Maximum upload
 *
 *---------------------------------------------------------------------------------------------------
-*
 */
 
 namespace upfiles;
 
 class UploadFiles
 {
-	private $config;
+	private $config = [];
 	private $file;
-	private $extensions;
+	private $extensions = [];
     private $allowedFileSize = 2;
-    private $internalErros;
+    private $internalErrors;
     
-    /*The message error it's beginning null*/
+    # The message error it's beginning null
     public function __construct()
     {
-        $this->internalErros["1"] = null;
-        $this->internalErros["2"] = null;
-        $this->internalErros["3"] = null;
-        $this->internalErros["4"] = null;
+        $this->internalErrors["1"] = null;
+        $this->internalErrors["2"] = null;
     }
 
-    /*Setting the attributes*/
-	public function setInputFile($file)
+    # Setting the attributes
+	public function file($file)
 	{
 		$this->file = $file;
 	}
     
-	public function sendTo($folder)
+    # The name of the folder that you can send the file
+	public function folder($folder)
 	{
 		$this->config["folder"] = $folder;
 	}
     
-	public function setExtensions($extensions)
+    # You can pass an array with the extensions of the files
+	public function extensions(Array $extensions)
 	{
 		$this->extensions = $extensions;
 	}
-
-    public function SetMaxFileSize($fileSize)
+    
+    /*You can demand a max size to the file that will be uploaded*/
+    public function maxSize($fileSize = 4)
     {
         $this->allowedFileSize = $fileSize;
     }
-    /*end set*/
     
-    /*This method do the input validation */
+    # This method do the input validation
     public function move()
     {
 		$this->config["fileLength"] = 1024 * 1024 * $this->allowedFileSize;
@@ -75,87 +72,66 @@ class UploadFiles
 
         $prepareExtensions = explode(".", $this->file["name"]);
         $prepareExtensions = strtolower(end($prepareExtensions));
-        $this->createFolder();
-
-        if ( ! is_array($this->extensions) or ! is_array($this->file))
-        {
-            $this->internalErros["2"] = 1;
-        }
-        elseif ($this->file["error"] != 0)
-        {
-            if ($this->file["error"] == 1)
-            {
-                $this->internalErros["1"] = 1;
-            }
-        }
-        elseif (array_search($prepareExtensions, $this->config["theExtensions"]) === false)
-        {
-            $this->internalErros["4"] = 1;
-        }
-        elseif ($this->config["fileLength"] < $this->file["size"])
-        {
-        	$this->internalErros["3"] = 1;
-        }
-        else
-        {
-            if (file_exists($this->config["folder"]))
-            {
-                $this->moveFile();
-                return true;
-            }
-            
+        
+        # Verify the extension of the file
+        if (array_search($prepareExtensions, $this->config["theExtensions"]) === false) {
+            $this->internalErrors["1"] = true;
             return false;
         } 
+        
+        # Verify the max file limit
+        if ($this->config["fileLength"] < $this->file["size"]) {
+            $this->internalErrors["2"] = true;
+            return false;
+        }
+        
+        if (file_exists($this->config["folder"])) {
+            return $this->moveFile();
+        }
+       
+        return false;
 	}
     
-    /*This method create the folder that will be passed like argument for the method sendTo() if the folder no exist*/
+    # This method create the folder that will be passed like argument for the method sendTo() if the folder no exist
     private function createFolder()
     {
-        if ( ! file_exists($this->config["folder"]))
-        {
+        if ( ! file_exists($this->config["folder"])) {
             mkdir($this->config["folder"], 0777, true);
         }
     }
     
-    /*This method move the files to the folder destination*/
+    # This method move the files to the folder destination
     private function moveFile()
     {
         $getFinalExtension = explode(".", $this->file["name"]);
         $pathAndName = $this->config["folder"] . time() . "." . $getFinalExtension[1];
         $this->config["finalPath"] = $pathAndName;
+
+        $this->createFolder();
+
         return move_uploaded_file($this->file["tmp_name"], $pathAndName);
     }
     
-    /*This method return the final name of the files and your extension*/
-    public function getPath()
+    # This method return the final name of the files and your extension
+    public function destinationPath()
     {
         $this->moveFile();
         return $this->config["finalPath"];
     }
     
-    /*This method get status of errors*/
-    public function getErros()
+    # This method get status of errors
+    public function getErrors()
     {
         $this->move();
-        if ($this->internalErros["1"] != null)
-        {
+
+        if ( ! is_null($this->internalErrors["1"])) {
             return 1;
-        }
-        elseif ($this->internalErros["2"] != null)
-        {
+        } elseif ( ! is_null($this->internalErrors["2"])) {
             return 2;
-        }
-        elseif ($this->internalErros["3"] != null)
-        {
-            return 3;
-        }
-        elseif ($this->internalErros["4"] != null)
-        {
-            return 4;
         }
     }
 
-    /*Empty the attributes*/
+    # Empty the attributes
 	public function __destruct()
 	{
 		unset($this->file);
@@ -164,5 +140,3 @@ class UploadFiles
         $this->allowedFileSize = null;
 	}
 }
-/* End of file UploadFiles.php */
-/* Location: upfiles */

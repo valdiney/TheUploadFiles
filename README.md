@@ -124,6 +124,6 @@ upload_max_filesize = 10M
 <p>
     Para recuperar o caminho de destino do Arquivo enviado para o servidor, você pode usar o método <b>destinationPath()</b> que re torna o caminho completo do arquivo juntamente com o novo nome e extensão.
 
-    <br>
+   <br>
     Esse método pode retornar algo como: http://127.0.0.1:8887/TheUploadFiles/arquivos/1422219491.pdf
 </p>

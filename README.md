@@ -47,7 +47,6 @@ Class PHP para efetuar o Upload de arquivos
 <p>
     A maior parte de um script que realiza o Upload de arquivos é composta por varias validações. Fazer o Upload de arquivos pode apresentar certos perigos de segurança, por isso, precisamos minimizar os perigos validando cuidadosamente a entrada e natureza dos arquivos que serão enviados ao servidor.
 </p>
-
 <h3>Método getErrors():</h3>
 <p>
     Quando o Script encontra um erro, guarda em memória o número referente ao erro! Você pode recuperar o erro e interrompe o envio do arquivo para o servidor. 

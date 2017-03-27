@@ -52,7 +52,6 @@ Class PHP para efetuar o Upload de arquivos
     Quando o Script encontra um erro, guarda em memória o número referente ao erro! Você pode recuperar o erro e interrompe o envio do arquivo para o servidor. 
     Recupere os erros por via do método <b>getErrors()</b>
 </p>
-
 ```php
 <?php
     # Incluindo a Classe para uso

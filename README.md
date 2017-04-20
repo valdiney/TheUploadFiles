@@ -10,7 +10,7 @@ Class PHP para efetuar o Upload de arquivos
 <a href="https://packagist.org/packages/valdiney/upload-files" target="_blank">Visite o projeto no Packagist</a>
 
 <h3>Exemplo de uso:</h3>
-```
+```php
     # Incluindo a Classe para uso
     require_once("upfiles/UploadFiles.php");
 

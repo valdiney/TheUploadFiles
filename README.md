@@ -11,7 +11,7 @@ Class PHP para efetuar o Upload de arquivos
 
 <h3>Exemplo de uso:</h3>
 ```php
-<?php
+
     # Incluindo a Classe para uso
     require_once("upfiles/UploadFiles.php");
 
@@ -37,7 +37,7 @@ Class PHP para efetuar o Upload de arquivos
     if ($up->move()) {
         echo "Arquivo enviado com Sucesso";
     }
-?>
+
 
 <!--O método "destinationPath()" retorna o caminho do arquivo juntamente com o seu nome e extensão-->
 <a href="<?php echo $up->destinationPath(); ?>">Caminho do arquivo</a>

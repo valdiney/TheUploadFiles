@@ -4,7 +4,9 @@ Class PHP para efetuar o Upload de arquivos
 <b>Instalação:</b>
 <p>
     Você também pode fazer a instalação dessa classe via <b>composer</b>. Bastando configurar o require eu seu <b>arquivo composer.json</b>
+    ```php
     require: "valdiney/upload-files": "dev-master"
+    ```
 </p>
 
 <a href="https://packagist.org/packages/valdiney/upload-files" target="_blank">Visite o projeto no Packagist</a>

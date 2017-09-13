@@ -9,37 +9,6 @@ Class PHP para efetuar o Upload de arquivos
 
 <a href="https://packagist.org/packages/valdiney/upload-files" target="_blank">Visite o projeto no Packagist</a>
 
-<h3>Exemplo de uso:</h3>
-```txt
-<?php
-
-    # Incluindo a Classe para uso
-    require_once("upfiles/UploadFiles.php");
-
-	# Instanciando o objeto
-    $up = new upfiles\UploadFiles();
-    
-    # Recebe o arquivo do Formulário
-    $arquivo = $_FILES["arquivo"];
-
-    # Passando arquivo para a Classe
-    $up->file($arquivo); 
-    
-    # Passando o nome da pasta para onde você mandará o arquivo
-    $up->folder("arquivos/"); 
-    
-    # Método opcional, por padrão a classe permite o tamanho padrão configurado pelo PHP que é 2Mb
-    $up->maxSize(4);
-    
-    # Passando um Array de Extensões que poderá ser enviado para o servidor
-    $up->extensions(array("jpg","png","gif","pdf","doc","docx","html","txt"));
-    
-    # Método que realiza o Upload
-    if ($up->move()) {
-        echo "Arquivo enviado com Sucesso";
-    }
-```
-
 <!--O método "destinationPath()" retorna o caminho do arquivo juntamente com o seu nome e extensão-->
 <a href="<?php echo $up->destinationPath(); ?>">Caminho do arquivo</a>
 

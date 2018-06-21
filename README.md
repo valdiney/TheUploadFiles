@@ -67,6 +67,7 @@ Class PHP para efetuar o Upload de arquivos
 ```
 
 <h3>Número das mensagens de Erros:</h3>
+
 ```txt
 * 1 = Formato de Arquivo não permitido no método (extensions)
 * 2 = Tamanho de Arquivo ultrapassou o definido no método (maxSize)

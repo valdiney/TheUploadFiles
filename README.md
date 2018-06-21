@@ -24,7 +24,7 @@ Class PHP para efetuar o Upload de arquivos
     Recupere os erros por via do método <b>getErrors()</b>
 </p>
 ```php
-<?php
+
     # Incluindo a Classe para uso
     require_once("upfiles/UploadFiles.php");
 

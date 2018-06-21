@@ -10,10 +10,6 @@ Class PHP para efetuar o Upload de arquivos
 
 <a href="https://packagist.org/packages/valdiney/upload-files" target="_blank">Visite o projeto no Packagist</a>
 
-<!--O método "destinationPath()" retorna o caminho do arquivo juntamente com o seu nome e extensão-->
-<a href="<?php echo $up->destinationPath(); ?>">Caminho do arquivo</a>
-
-
 <h3>Exemplo de uso ( RECOMENDADO ):</h3>
 <p>
     A maior parte de um script que realiza o Upload de arquivos é composta por varias validações. Fazer o Upload de arquivos pode apresentar certos perigos de segurança, por isso, precisamos minimizar os perigos validando cuidadosamente a entrada e natureza dos arquivos que serão enviados ao servidor.

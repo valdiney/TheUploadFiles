@@ -8,7 +8,7 @@ if (isset($_GET["enviar"]))
     $up->file($_FILES["arquivo"]);
     $up->folder("arquivos/");
     $up->maxSize(4);
-    $up->extensions(array("png","gif","pdf","doc","docx","html","txt","avi","mp4", "zip"));
+    $up->extensions(array("png","jpg","jpeg","gif","pdf","doc","docx","html","txt","avi","mp4", "zip"));
 
     if ($up->getErrors() == 1) {
         echo "Formato não esperado";
@@ -17,6 +17,16 @@ if (isset($_GET["enviar"]))
 
     if ($up->getErrors() == 2) {
         echo "O tamanho limite para Upload é de 4MB";
+        return false;
+    }
+
+    if ($up->getErrors() == 3) {
+        echo "Formato não identificado. Por favor, tente novamente.";
+        return false;
+    }
+
+    if ($up->getErrors() == 4) {
+        echo "Erro interno. Diretório não encontrado.";
         return false;
     }
 

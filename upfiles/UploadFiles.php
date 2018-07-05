@@ -38,6 +38,8 @@ class UploadFiles
     {
         $this->internalErrors["1"] = null;
         $this->internalErrors["2"] = null;
+        $this->internalErrors["3"] = null;
+        $this->internalErrors["4"] = null;
     }
 
     # Setting the attributes
@@ -68,10 +70,18 @@ class UploadFiles
     public function move()
     {
 		$this->config["fileLength"] = 1024 * 1024 * $this->allowedFileSize;
-		$this->config["theExtensions"] = $this->extensions;
+        $this->config["theExtensions"] = $this->extensions;
 
-        $prepareExtensions = explode(".", $this->file["name"]);
-        $prepareExtensions = strtolower(end($prepareExtensions));
+        # Get the extension of the file
+        if (!($prepareExtensions = $this->file['type'])) {
+            $this->internalErrors["3"] = true;
+            return false;
+        }
+
+        # Getting the extension by preg_match: (image|audio|...)/(jpeg|png|mp3|...)
+        preg_match('/(\w+)\/(\w+)/', $prepareExtensions, $matches);
+        $prepareExtensions = $matches[2];
+        $prepareExtensions = strtolower($prepareExtensions);
         
         # Verify the extension of the file
         if (array_search($prepareExtensions, $this->config["theExtensions"]) === false) {
@@ -85,8 +95,8 @@ class UploadFiles
             return false;
         }
         
-        if (file_exists($this->config["folder"])) {
-            return $this->moveFile();
+        if (($moved = $this->moveFile())) {
+            return $moved;
         }
        
         return false;
@@ -95,9 +105,12 @@ class UploadFiles
     # This method create the folder that will be passed like argument for the method sendTo() if the folder no exist
     private function createFolder()
     {
-        if ( ! file_exists($this->config["folder"])) {
-            mkdir($this->config["folder"], 0777, true);
+        # Verify if directory exists, if not try to create it and return the result
+        if (is_dir($this->config["folder"]) or
+                mkdir($this->config["folder"], 777, true)) {
+            return true;
         }
+        return false;
     }
     
     # This method move the files to the folder destination
@@ -107,7 +120,11 @@ class UploadFiles
         $pathAndName = $this->config["folder"] . time() . "." . $getFinalExtension[1];
         $this->config["finalPath"] = $pathAndName;
 
-        $this->createFolder();
+        # if directory not exists and is not possible to create, then return the error 4
+        if(!$this->createFolder()) {
+            $this->internalErrors["4"] = true;
+            return false;
+        }
 
         return move_uploaded_file($this->file["tmp_name"], $pathAndName);
     }
@@ -122,12 +139,14 @@ class UploadFiles
     # This method get status of errors
     public function getErrors()
     {
-        $this->move();
-
         if ( ! is_null($this->internalErrors["1"])) {
             return 1;
         } elseif ( ! is_null($this->internalErrors["2"])) {
             return 2;
+        } elseif ( ! is_null($this->internalErrors["3"])) {
+            return 3;
+        } elseif ( ! is_null($this->internalErrors["4"])) {
+            return 4;
         }
     }
 

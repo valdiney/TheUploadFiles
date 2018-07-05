@@ -8,6 +8,8 @@ Class PHP para efetuar o Upload de arquivos
     
 </p>
 
+> Talvez você precise adicionar permissão de diretórios com: `chmod -r 777 TheUploadFiles`
+
 <a href="https://packagist.org/packages/valdiney/upload-files" target="_blank">Visite o projeto no Packagist</a>
 
 <h3>Descrição</h3>

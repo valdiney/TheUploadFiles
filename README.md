@@ -89,7 +89,7 @@ upload_max_filesize = 2M
 upload_max_filesize = 10M
 ```
 
-<h3>Mais sobre o método destinationPath()</h3>
+<h3>destinationPath()</h3>
 <p>
     Para recuperar o caminho de destino do Arquivo enviado para o servidor, você pode usar o método <b>destinationPath()</b> que re torna o caminho completo do arquivo juntamente com o novo nome e extensão.
 

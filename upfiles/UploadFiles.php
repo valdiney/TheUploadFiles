@@ -38,6 +38,7 @@ class UploadFiles
     {
         $this->internalErrors["1"] = null;
         $this->internalErrors["2"] = null;
+        $this->internalErrors["3"] = null;
     }
 
     # Setting the attributes
@@ -68,10 +69,18 @@ class UploadFiles
     public function move()
     {
 		$this->config["fileLength"] = 1024 * 1024 * $this->allowedFileSize;
-		$this->config["theExtensions"] = $this->extensions;
+        $this->config["theExtensions"] = $this->extensions;
 
-        $prepareExtensions = explode(".", $this->file["name"]);
-        $prepareExtensions = strtolower(end($prepareExtensions));
+        # Get the extension of the file
+        if (!($prepareExtensions = $this->file['type'])) {
+            $this->internalErrors["3"] = true;
+            return false;
+        }
+
+        # Getting the extension by preg_match: (image|audio|...)/(jpeg|png|mp3|...)
+        preg_match('/(\w+)\/(\w+)/', $prepareExtensions, $matches);
+        $prepareExtensions = $matches[2];
+        $prepareExtensions = strtolower($prepareExtensions);
         
         # Verify the extension of the file
         if (array_search($prepareExtensions, $this->config["theExtensions"]) === false) {
@@ -128,6 +137,8 @@ class UploadFiles
             return 1;
         } elseif ( ! is_null($this->internalErrors["2"])) {
             return 2;
+        } elseif ( ! is_null($this->internalErrors["3"])) {
+            return 3;
         }
     }
 

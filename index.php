@@ -25,6 +25,11 @@ if (isset($_GET["enviar"]))
         return false;
     }
 
+    if ($up->getErrors() == 4) {
+        echo "Erro interno. Diretório não encontrado.";
+        return false;
+    }
+
     try {
         $up->move();
         echo "Upload feito com Sucesso!";

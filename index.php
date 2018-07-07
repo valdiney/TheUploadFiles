@@ -9,9 +9,5 @@
         <input  type="file" name="arquivo">
         <button type="submit" name="enviar">Enviar</button>
     </form>
-    <br>
-    <?php if (isset($_GET["enviar"])): ?>
-        <a href="<?php echo $up->destinationPath(); ?>">Caminho do arquivo</a>
-    <?php endif;?>
 </body>
 </html>

@@ -37,10 +37,10 @@ Class PHP para efetuar o Upload de arquivos
 ```php
 
     # Incluindo a Classe para uso
-    require_once("upfiles/UploadFiles.php");
+    require_once("vendor/autoload.php");
 
     # Instanciando o objeto
-    $up = new upfiles\UploadFiles();
+    $up = new UPFiles\UploadFiles();
 
     # Recebe o arquivo do Formulário
     $arquivo = $_FILES["arquivo"];
@@ -55,21 +55,32 @@ Class PHP para efetuar o Upload de arquivos
     $up->maxSize(4);
 
     # Passando um Array de Extensões que poderá ser enviado para o servidor
-    $up->extensions(array("jpg","png","gif","pdf","doc","docx","html","txt"));
+    $up->extensions(array("png","jpg","jpeg","gif","pdf","doc","docx","html","txt","avi","mp4", "zip"));
 
-    if ($up->getErrors() == 1) {
-        echo "Formato de Arquivo não Permitido!";
-        return false;
-    }
+    $error = null;
 
-    if ($up->getErrors() == 2) {
-        echo "O tamanho limite para Upload é de 4Mb";
-        return false;
+    switch($up->getErrors()) {
+        case 1:
+            $error = "Formato não esperado";
+            break;
+        case 2:
+            $error = "O tamanho limite para Upload é de 4MB";
+            break;
+        case 3:
+            $error = "Formato não identificado. Por favor, tente novamente.";
+            break;
+        case 4:
+            $error = "Erro interno. Diretório não encontrado.";
+            break;
     }
 
     try {
+        if ($error!==null) {
+            throw new Exception($error);
+        }
         $up->move();
-        echo "Upload feito com Sucesso!";
+        echo "Upload feito com Sucesso! <br>";
+        echo "<a href=\"{$up->destinationPath()}\">Caminho do arquivo.</a>";
     } catch(\Exception $e) {
         echo "Ocorreu um erro ao tentar fazer o Upload: " . $e->getMessage();
     }
@@ -80,6 +91,8 @@ Class PHP para efetuar o Upload de arquivos
 ```txt
 * 1 = Formato de Arquivo não permitido no método (extensions)
 * 2 = Tamanho de Arquivo ultrapassou o definido no método (maxSize)
+* 3 = O sistema não conseguiu identificar a extensão.
+* 4 = Erro ao salvar o arquivo no diretório `arquivos/`.
 ```
 
 <h3>Obs:</h3>

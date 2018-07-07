@@ -19,6 +19,8 @@
 * Message Error.
 * 1 = Error when trying to upload extensions not allowed by the user
 * 2 = Error Beyond the user-defined size Maximum upload
+* 3 = The system can't identify the extension
+* 4 = Error on try to save file in `arquivos/` directory
 *
 *---------------------------------------------------------------------------------------------------
 */

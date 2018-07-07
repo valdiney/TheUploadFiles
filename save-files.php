@@ -10,8 +10,8 @@ if (!isset($_POST["enviar"]))
     exit();
 }
 
-require_once("upfiles/UploadFiles.php");
-$up = new upfiles\UploadFiles();
+require_once("vendor/autoload.php");
+$up = new UPFiles\UploadFiles();
 
 $up->file($_FILES["arquivo"]);
 $up->folder("arquivos/");

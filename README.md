@@ -1,7 +1,8 @@
 # TheUploadFiles
 Class PHP para efetuar o Upload de arquivos
 
-<b>Instalação:</b>
+<h3>Instalação:</h3>
+
 <p>
     Você também pode fazer a instalação dessa classe via <b>composer</b>. Bastando configurar o require eu seu <b>arquivo composer.json</b>
     require: "valdiney/upload-files": "dev-master"
@@ -14,6 +15,12 @@ Class PHP para efetuar o Upload de arquivos
 <strong>Dependendo do seu sistema operacional, principalmente no Linux/GNU, você precisará adicionar permissão aos diretórios:</strong>
 
 >  `chmod -r 777 path/to/TheUploadFiles path/to/TheUploadFiles/arquivos`
+
+<h4>.editorconfig:</h4>
+
+<p>
+    O projeto possui suporte ao <a href="https://editorconfig.org/" target="_blank">.editorconfig</a>. O <b>.editorconfig</b> possui suporte a diversos editores de código e IDEs, verifique como instalar no de sua preferência :wink: .
+</p>
 
 <h3>Descrição</h3>
 <p>

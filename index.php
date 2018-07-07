@@ -36,7 +36,7 @@ if (isset($_GET["enviar"]))
     } catch(\Exception $e) {
         echo "Ocorreu um erro ao tentar fazer o Upload: " . $e->getMessage();
     }
-       
+
 }
 ?>
 <!DOCTYPE html>
@@ -45,16 +45,14 @@ if (isset($_GET["enviar"]))
   <meta charset="utf-8">
   <title>Teste de uso da Class TheUploadFiles</title>
 </head>
-
 <body>
-<form method="post" action="index.php?enviar" enctype="multipart/form-data">
-    <input type="file" name="arquivo">
-    <button type="submit">Enviar</button>
-</form>
-<br>
-<?php if (isset($_GET["enviar"])): ?>
-    <a href="<?php echo $up->destinationPath(); ?>">Caminho do arquivo</a>
-<?php endif;?>
+    <form method="post" action="index.php?enviar" enctype="multipart/form-data">
+        <input type="file" name="arquivo">
+        <button type="submit">Enviar</button>
+    </form>
+    <br>
+    <?php if (isset($_GET["enviar"])): ?>
+        <a href="<?php echo $up->destinationPath(); ?>">Caminho do arquivo</a>
+    <?php endif;?>
 </body>
-
 </html>

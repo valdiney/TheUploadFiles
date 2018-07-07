@@ -5,7 +5,7 @@ Class PHP para efetuar o Upload de arquivos
 <p>
     Você também pode fazer a instalação dessa classe via <b>composer</b>. Bastando configurar o require eu seu <b>arquivo composer.json</b>
     require: "valdiney/upload-files": "dev-master"
-    
+
 </p>
 
 > Talvez você precise adicionar permissão de diretórios com: `chmod -r 777 TheUploadFiles`
@@ -18,7 +18,7 @@ Class PHP para efetuar o Upload de arquivos
 </p>
 <h3>Método getErrors():</h3>
 <p>
-    Quando o Script encontra um erro, guarda em memória o número referente ao erro! Você pode recuperar o erro e interromper o envio do arquivo para o servidor. 
+    Quando o Script encontra um erro, guarda em memória o número referente ao erro! Você pode recuperar o erro e interromper o envio do arquivo para o servidor.
     Recupere os erros por via do método <b>getErrors()</b>
 </p>
 <h3>Exemplo de uso ( RECOMENDADO ):</h3>
@@ -31,16 +31,16 @@ Class PHP para efetuar o Upload de arquivos
 
     # Instanciando o objeto
     $up = new upfiles\UploadFiles();
-    
+
     # Recebe o arquivo do Formulário
     $arquivo = $_FILES["arquivo"];
 
     # Passando arquivo para a Classe
-    $up->file($arquivo); 
-    
+    $up->file($arquivo);
+
     # Passando o nome da pasta para onde você mandará o arquivo
-    $up->folder("arquivos/"); 
-    
+    $up->folder("arquivos/");
+
     # Método opcional, por padrão a classe permite o tamanho padrão configurado pelo PHP que é 2Mb
     $up->maxSize(4);
 
@@ -80,7 +80,7 @@ Class PHP para efetuar o Upload de arquivos
 
 <h3>Mudanças no PHP.ini</h3>
 <p>
-    No seu <b>PHP.ini</b> pesquise por : <b>upload_max_filesize</b>  e atribua ao mesmo um valor maior 
+    No seu <b>PHP.ini</b> pesquise por : <b>upload_max_filesize</b>  e atribua ao mesmo um valor maior
 </p>
 
 ```txt

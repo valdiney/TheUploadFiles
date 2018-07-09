@@ -1,18 +1,18 @@
 {
-	"name":"valdiney/upload-files",
-	"description":"Using this class you can do upload many files to your server.",
-	"type":"class",
-	"keywords":["upload","uplaodfiles"],
-	"license": "MIT",
-	"authors": [
-	{
-		"name":"Valdiney França",
-		"email":"valdiney.2@hotmail.com"
-	}
-	],
-	"autoload": {
-		"classmap": [
-                  "upfiles/"
-                 ]
-	}
+    "name":"valdiney/upload-files",
+    "description":"Using this class you can do upload many files to your server.",
+    "type":"class",
+    "keywords":["upload","uplaodfiles"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name":"Valdiney França",
+            "email":"valdiney.2@hotmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "": "src/"
+        }
+    }
 }

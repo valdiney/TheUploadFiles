@@ -119,7 +119,17 @@ class UploadFiles
     private function moveFile()
     {
         $getFinalExtension = explode(".", $this->file["name"]);
-        $pathAndName = $this->config["folder"] . time() . "." . $getFinalExtension[1];
+        
+        # Verifying if exist more than one (.) point in the name of the file
+        if (count($getFinalExtension) > 2) {
+            $name = str_replace(".", "_", $this->file["name"]);
+            $name = substr(strrchr($name, "_"), 1);
+
+            $pathAndName = $this->config["folder"] . time() . "." . $name;
+        } else {
+            $pathAndName = $this->config["folder"] . time() . "." . $getFinalExtension[1];
+        }
+        
         $this->config["finalPath"] = $pathAndName;
 
         # if directory not exists and is not possible to create, then return the error 4
